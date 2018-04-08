@@ -21,12 +21,17 @@ import java.awt.Canvas;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.VolatileImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 /**
  * Have functionality to display graphics, and can apply input handlers.
@@ -40,10 +45,10 @@ public class Display {
 	private BufferStrategy bs;
 	private boolean closing;
 	
-	public Display(String title) {
+	public Display(String title) throws IOException {
 		closing = false;
 		gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
-		this.frame = new JFrame(title, gc);
+		frame = new JFrame(title, gc);
 		c = new Canvas(gc);
 		c.setBounds(0, 0, Core.getWidth(), Core.getHeight());
 		img = gc.createCompatibleVolatileImage(Core.getWidth(), Core.getHeight());
@@ -58,6 +63,7 @@ public class Display {
 			}
 		});
 		frame.add(c);
+		frame.setIconImage(ImageIO.read(new File(Core.getIconFile())));
 	}
 	
 	public void startup() {
@@ -70,6 +76,9 @@ public class Display {
 	
 	public void update() {
 		assert g != null;
+		if(img.validate(gc) == VolatileImage.IMAGE_INCOMPATIBLE) {
+			img = gc.createCompatibleVolatileImage(Core.getWidth(), Core.getHeight());
+		}
 		g.drawImage(img, 0, 0, null);
 		bs.show();
 	}
@@ -78,6 +87,18 @@ public class Display {
 		frame.dispose();
 		g.dispose();
 		bs.dispose();
+	}
+	
+	public void addKeyboardListener(KeyListener kl) {
+		c.addKeyListener(kl);
+	}
+	
+	public void addMouseListener(MouseListener ml) {
+		c.addMouseListener(ml);
+	}
+	
+	public void addMouseMotionListener(MouseMotionListener mml) {
+		c.addMouseMotionListener(mml);
 	}
 	
 	public boolean isClosing() {

@@ -20,13 +20,14 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.VolatileImage;
+import java.util.List;
 
 /**
  * Have the capabilities to render on screen.
  */
 public class Renderer {
 	private VolatileImage img;
-	private Graphics2D g;
+	Graphics2D g;
 	
 	private Color bgc;
 	private Camera c;
@@ -49,13 +50,21 @@ public class Renderer {
 		this.bgc = bgc;
 	}
 	
+	public Color getBackgroundColor() {
+		return bgc;
+	}
+	
 	private void clearScreen() {
 		g.setColor(bgc);
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 		g.fillRect(0, 0, img.getWidth(), img.getHeight());
 	}
 	
-	public void render() {
+	public void render(List<RenderObject> objects) {
 		clearScreen();
+		for(RenderObject ro : objects) {
+			ro.setRenderer(this);
+			ro.draw();
+		}
 	}
 }

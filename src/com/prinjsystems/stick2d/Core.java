@@ -22,11 +22,13 @@ package com.prinjsystems.stick2d;
 public class Core {
 	private static int width;
 	private static int height;
+	private static String iconFile;
 	
 	static {
 		System.setProperty("java.awt.headless", "false");
 		width = 800;
 		height = 600;
+		iconFile = "logo.png";
 	}
 	
 	public static void setWidth(int w) {
@@ -46,11 +48,19 @@ public class Core {
 		System.setProperty("sun.java2d.opengl", String.valueOf(value));
 	}
 	
+	public static void setFrameIcon(String iconFilepath) {
+		iconFile = iconFilepath;
+	}
+	
 	public static int getWidth() {
 		return width;
 	}
 	
 	public static int getHeight() {
 		return height;
+	}
+	
+	public static String getIconFile() {
+		return iconFile;
 	}
 }

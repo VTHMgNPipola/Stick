@@ -1,5 +1,7 @@
 *
 !/src/
+
+# This class is hide because it has a main method, to make changes "visible" to me, literally, making it more easy to know if there is an error
 /src/com/prinjsystems/stick2d/Tester.java
 !logo.png
 !.gitignore
