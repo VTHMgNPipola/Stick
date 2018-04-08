@@ -35,6 +35,10 @@ public class TextureObject extends RenderObject {
 		texture = ImageIO.read(new File(texturePath));
 	}
 	
+	public TextureObject(String texturePath, float x, float y) throws IOException {
+		this(texturePath, x, y, 1.0f, 1.0f, 0.0f);
+	}
+	
 	public void updateTexture(String texturePath) throws IOException {
 		texture = ImageIO.read(new File(texturePath));
 	}
