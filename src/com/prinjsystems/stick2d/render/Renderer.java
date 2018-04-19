@@ -73,7 +73,7 @@ public class Renderer {
 		}
 	}
 	
-	public void setRenderQaulity(boolean renderQuality) {
+	public void setRenderQuality(boolean renderQuality) {
 		if(renderQuality) {
 			g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		} else {
