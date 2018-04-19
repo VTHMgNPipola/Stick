@@ -57,6 +57,6 @@ public class TextureObject extends RenderObject {
 		at.scale(sx, sy);
 		at.rotate(Math.toRadians(rotation), pivotX, pivotY);
 		g.setTransform(at);
-		g.drawImage(texture, (int) x, (int) y, null);
+		g.drawImage(texture.getSubimage((int) clip.x, (int) clip.y, (int) clip.width, (int) clip.height), (int) x, (int) y, null);
 	}
 }
