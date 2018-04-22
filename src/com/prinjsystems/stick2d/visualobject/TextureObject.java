@@ -18,6 +18,7 @@ package com.prinjsystems.stick2d.visualobject;
 
 import com.prinjsystems.stick2d.render.RenderObject;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -29,10 +30,12 @@ import javax.imageio.ImageIO;
  */
 public class TextureObject extends RenderObject {
 	private BufferedImage texture;
+	private Rectangle2D.Float clip;
 	
 	public TextureObject(String texturePath, float x, float y, float sx, float sy, float rotation) throws IOException {
 		super(x, y, sx, sy, rotation);
 		texture = ImageIO.read(new File(texturePath));
+		clip = new Rectangle2D.Float(0, 0, texture.getWidth(), texture.getHeight());
 	}
 	
 	public TextureObject(String texturePath, float x, float y) throws IOException {
@@ -41,6 +44,15 @@ public class TextureObject extends RenderObject {
 	
 	public void updateTexture(String texturePath) throws IOException {
 		texture = ImageIO.read(new File(texturePath));
+	}
+	
+	public void setClip(float clipX, float clipY, float clipSizeX, float clipSizeY) {
+		clip = new Rectangle2D.Float(clipX, clipY, clipSizeX, clipSizeY);
+	}
+	
+	public void translateClip(float x, float y) {
+		clip.x += x;
+		clip.y += y;
 	}
 	
 	public int getTextureWidth() {

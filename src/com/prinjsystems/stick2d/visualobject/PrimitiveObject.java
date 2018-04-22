@@ -65,12 +65,13 @@ public class PrimitiveObject extends RenderObject {
 	}
 	
 	@Override
-	public void draw() {
+	protected void draw() {
+		Color oldColor = g.getColor();
 		g.setColor(c);
 		AffineTransform at = new AffineTransform();
 		at.setToIdentity();
 		at.scale(sx, sy);
-		at.translate(x, y);
+		at.translate(x + shape.getBounds().x, y + shape.getBounds().y);
 		at.rotate(Math.toRadians(rotation), pivotX, pivotY);
 		g.setTransform(at);
 		if(hollow) {
@@ -78,5 +79,6 @@ public class PrimitiveObject extends RenderObject {
 		} else {
 			g.fill(shape);
 		}
+		g.setColor(oldColor);
 	}	
 }

@@ -17,7 +17,6 @@
 package com.prinjsystems.stick2d.render;
 
 import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * Defines a renderable object, that can be primitive or texture.
@@ -27,7 +26,6 @@ public abstract class RenderObject {
 	protected float x, y;
 	protected float sx, sy;
 	protected float rotation;
-	protected Rectangle2D.Float clip;
 	protected Graphics2D g;
 	
 	public RenderObject(float x, float y, float sx, float sy, float rotation) {
@@ -70,18 +68,9 @@ public abstract class RenderObject {
 		this.rotation = rotation;
 	}
 	
-	public void setClip(float clipX, float clipY, float clipSizeX, float clipSizeY) {
-		clip = new Rectangle2D.Float(clipX, clipY, clipSizeX, clipSizeY);
-	}
-	
 	public void translate(float x, float y) {
 		this.x += x;
 		this.y += y;
-	}
-	
-	public void translateClip(float x, float y) {
-		clip.x += x;
-		clip.y += y;
 	}
 	
 	public void rotate(float rotation) { // Rotation is in degrees, not radians.
