@@ -17,6 +17,8 @@
 package com.prinjsystems.stick2d.visualobject;
 
 import com.prinjsystems.stick2d.render.RenderObject;
+import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -30,6 +32,8 @@ import javax.imageio.ImageIO;
  */
 public class TextureObject extends RenderObject {
 	private BufferedImage texture;
+	private Color maskColor;
+	private float maskAlpha;
 	private Rectangle2D.Float clip;
 	
 	public TextureObject(String texturePath, float x, float y, float sx, float sy, float rotation) throws IOException {
@@ -46,6 +50,10 @@ public class TextureObject extends RenderObject {
 		texture = ImageIO.read(new File(texturePath));
 	}
 	
+	public void setClip(Rectangle2D.Float clip) {
+		this.clip = clip;
+	}
+	
 	public void setClip(float clipX, float clipY, float clipSizeX, float clipSizeY) {
 		clip = new Rectangle2D.Float(clipX, clipY, clipSizeX, clipSizeY);
 	}
@@ -53,6 +61,19 @@ public class TextureObject extends RenderObject {
 	public void translateClip(float x, float y) {
 		clip.x += x;
 		clip.y += y;
+	}
+	
+	public void setMaskColor(Color maskColor) { // If null, no mask will be applied.
+		this.maskColor = maskColor;
+	}
+	
+	public void setMaskAlpha(float alphaValue) { // From 0.0f to 1.0f
+		maskAlpha = alphaValue;
+	}
+	
+	public void resetMask() {
+		maskColor = null;
+		maskAlpha = 0;
 	}
 	
 	public int getTextureWidth() {
@@ -63,12 +84,48 @@ public class TextureObject extends RenderObject {
 		return texture.getHeight();
 	}
 	
+	public Rectangle2D.Float getClip() {
+		return clip;
+	}
+	
+	public Color getMaskColor() {
+		return maskColor;
+	}
+	
+	public float getMaskAlpha() {
+		return maskAlpha;
+	}
+	
 	@Override
 	protected void draw() {
 		AffineTransform at = new AffineTransform();
 		at.scale(sx, sy);
 		at.rotate(Math.toRadians(rotation), pivotX, pivotY);
 		g.setTransform(at);
-		g.drawImage(texture.getSubimage((int) clip.x, (int) clip.y, (int) clip.width, (int) clip.height), (int) x, (int) y, null);
+		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1 - maskAlpha);
+		g.setComposite(ac);
+		BufferedImage img = applyMask(texture.getSubimage((int) clip.x, (int) clip.y, (int) clip.width, (int) clip.height));
+		g.drawImage(img, (int) x, (int) y, null);
+	}
+	
+	private BufferedImage applyMask(BufferedImage texture) {
+		if(maskColor == null) {
+			return texture;
+		}
+		
+		BufferedImage result = new BufferedImage(texture.getWidth(), texture.getHeight(), texture.getType());
+		for(int x = 0; x < texture.getWidth(); x++) {
+			for(int y = 0; y < texture.getHeight(); y++) {
+				int cValue = texture.getRGB(x, y);
+				if(cValue >> 24 == 0x00) continue; // If pixel is transparent, doesn't mask it
+				Color c = new Color(cValue);
+				Color newColor = new Color(c.getRed() & maskColor.getRed(),
+						c.getGreen() & maskColor.getGreen(), c.getBlue() & maskColor.getBlue(),
+						c.getAlpha() & maskColor.getAlpha());
+				result.setRGB(x, y, newColor.getRGB());
+			}
+		}
+		
+		return result;
 	}
 }
