@@ -25,10 +25,10 @@ public class Core {
 	private static String iconFile;
 	
 	static {
-		System.setProperty("java.awt.headless", "false");
+		//System.setProperty("java.awt.headless", "false");
 		width = 800;
 		height = 600;
-		iconFile = "logo.png";
+		iconFile = "logo-small.png";
 	}
 	
 	public static void setWidth(int w) {

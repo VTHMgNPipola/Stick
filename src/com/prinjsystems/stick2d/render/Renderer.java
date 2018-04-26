@@ -40,6 +40,7 @@ public class Renderer {
 	public Renderer(Display d) {
 		img = d.img;
 		g = (Graphics2D) img.getGraphics();
+		bgc = Color.black;
 	}
 	
 	public Renderer(Display d, Camera c) {
@@ -69,7 +70,16 @@ public class Renderer {
 		clearScreen();
 		for(RenderObject ro : objects) {
 			ro.setRenderer(this);
-			ro.draw();
+			if(c != null) {
+				float rot = ro.getRotation();
+				ro.setRotation(0);
+				ro.translate(c.getX(), c.getY());
+				ro.setRotation(rot);
+				ro.draw();
+				ro.translate(-c.getX(), -c.getY());
+			} else {
+				ro.draw();
+			}
 		}
 	}
 	

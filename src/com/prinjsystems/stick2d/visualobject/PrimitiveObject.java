@@ -68,6 +68,7 @@ public class PrimitiveObject extends RenderObject {
 	protected void draw() {
 		Color oldColor = g.getColor();
 		g.setColor(c);
+		AffineTransform oldAt = g.getTransform();
 		AffineTransform at = new AffineTransform();
 		at.setToIdentity();
 		at.scale(sx, sy);
@@ -80,5 +81,6 @@ public class PrimitiveObject extends RenderObject {
 			g.fill(shape);
 		}
 		g.setColor(oldColor);
+		g.setTransform(oldAt);
 	}	
 }

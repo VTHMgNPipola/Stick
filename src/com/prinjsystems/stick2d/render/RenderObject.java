@@ -98,5 +98,9 @@ public abstract class RenderObject {
 		return sy;
 	}
 	
+	public float getRotation() {
+		return rotation;
+	}
+	
 	protected abstract void draw();
 }

@@ -20,32 +20,32 @@ package com.prinjsystems.stick2d.render;
  * Holds position to be applied to objects, giving the ilusion of screen movement.
  */
 public class Camera {
-	private int x;
-	private int y;
+	private float x;
+	private float y;
 	
-	public Camera(int x, int y) {
+	public Camera(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}
 	
-	public void translate(int x, int y) {
+	public void translate(float x, float y) {
 		this.x += x;
 		this.y += y;
 	}
 	
-	public void setX(int x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 	
-	public void setY(int y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 	
-	public int getX() {
+	public float getX() {
 		return x;
 	}
 	
-	public int getY() {
+	public float getY() {
 		return y;
 	}
 }

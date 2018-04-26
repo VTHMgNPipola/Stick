@@ -80,13 +80,16 @@ public class SimpleTextObject extends RenderObject {
 	@Override
 	protected void draw() {
 		Color oldColor = g.getColor();
+		AffineTransform oldAt = g.getTransform();
 		AffineTransform at = new AffineTransform();
 		at.scale(sx, sy);
 		at.rotate(Math.toRadians(rotation), pivotX, pivotY);
+		at.translate(x, y);
 		g.setTransform(at);
 		g.setFont(font);
 		g.setColor(fontColor);
-		g.drawString(text, x, y);
+		g.drawString(text, 0, 0);
 		g.setColor(oldColor); // For some reason, background color is overwritten if re-set
+		g.setTransform(oldAt);
 	}
 }

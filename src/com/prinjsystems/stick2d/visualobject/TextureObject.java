@@ -98,6 +98,7 @@ public class TextureObject extends RenderObject {
 	
 	@Override
 	protected void draw() {
+		AffineTransform oldAt = g.getTransform();
 		AffineTransform at = new AffineTransform();
 		at.scale(sx, sy);
 		at.rotate(Math.toRadians(rotation), pivotX, pivotY);
@@ -106,6 +107,7 @@ public class TextureObject extends RenderObject {
 		g.setComposite(ac);
 		BufferedImage img = applyMask(texture.getSubimage((int) clip.x, (int) clip.y, (int) clip.width, (int) clip.height));
 		g.drawImage(img, (int) x, (int) y, null);
+		g.setTransform(oldAt);
 	}
 	
 	private BufferedImage applyMask(BufferedImage texture) {
