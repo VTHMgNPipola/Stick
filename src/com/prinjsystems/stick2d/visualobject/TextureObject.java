@@ -99,9 +99,14 @@ public class TextureObject extends RenderObject {
 	@Override
 	protected void draw() {
 		AffineTransform oldAt = g.getTransform();
+		float cx = 0, cy = 0;
+		if(camera != null) {
+			cx = camera.getX();
+			cy = camera.getY();
+		}
 		AffineTransform at = new AffineTransform();
 		at.scale(sx, sy);
-		at.translate(x + -camera.getX(), y + -camera.getY());
+		at.translate((x + -cx) / sx, (y + -cy) / sy);
 		at.rotate(Math.toRadians(rotation), pivotX, pivotY);
 		g.setTransform(at);
 		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1 - maskAlpha);

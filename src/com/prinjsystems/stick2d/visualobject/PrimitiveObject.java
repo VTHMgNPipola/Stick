@@ -20,6 +20,7 @@ import com.prinjsystems.stick2d.render.RenderObject;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 
 /**
  * Renders data as a primitive AWT shape.
@@ -45,7 +46,7 @@ public class PrimitiveObject extends RenderObject {
 	}
 	
 	public PrimitiveObject(Shape shape) {
-		this(shape, 0.0f, 0.0f); // Some shapes have their own position, so the in-class one will confuse things.
+		this(shape, shape.getBounds().x, shape.getBounds().y); // Some shapes have their own position, so the in-class one will confuse things.
 	}
 	
 	public void setShape(Shape shape) {
@@ -68,11 +69,16 @@ public class PrimitiveObject extends RenderObject {
 	protected void draw() {
 		Color oldColor = g.getColor();
 		g.setColor(c);
+		float cx = 0, cy = 0;
+		if(camera != null) {
+			cx = camera.getX();
+			cy = camera.getY();
+		}
 		AffineTransform oldAt = g.getTransform();
 		AffineTransform at = new AffineTransform();
 		at.setToIdentity();
 		at.scale(sx, sy);
-		at.translate(x + shape.getBounds().x + -camera.getX(), y + shape.getBounds().y + -camera.getY());
+		at.translate((x + -cx) / sx, (y + -cy) / sy);
 		at.rotate(Math.toRadians(rotation), pivotX, pivotY);
 		g.setTransform(at);
 		if(hollow) {
@@ -82,5 +88,5 @@ public class PrimitiveObject extends RenderObject {
 		}
 		g.setColor(oldColor);
 		g.setTransform(oldAt);
-	}	
+	}
 }

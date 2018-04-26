@@ -81,9 +81,14 @@ public class SimpleTextObject extends RenderObject {
 	protected void draw() {
 		Color oldColor = g.getColor();
 		AffineTransform oldAt = g.getTransform();
+		float cx = 0, cy = 0;
+		if(camera != null) {
+			cx = camera.getX();
+			cy = camera.getY();
+		}
 		AffineTransform at = new AffineTransform();
 		at.scale(sx, sy);
-		at.translate(x + -camera.getX(), y + -camera.getY());
+		at.translate((x + -cx) / sx, (y + -cy) / sy);
 		at.rotate(Math.toRadians(rotation), pivotX, pivotY);
 		g.setTransform(at);
 		g.setFont(font);
