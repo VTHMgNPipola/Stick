@@ -101,12 +101,13 @@ public class TextureObject extends RenderObject {
 		AffineTransform oldAt = g.getTransform();
 		AffineTransform at = new AffineTransform();
 		at.scale(sx, sy);
+		at.translate(x + -camera.getX(), y + -camera.getY());
 		at.rotate(Math.toRadians(rotation), pivotX, pivotY);
 		g.setTransform(at);
 		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1 - maskAlpha);
 		g.setComposite(ac);
 		BufferedImage img = applyMask(texture.getSubimage((int) clip.x, (int) clip.y, (int) clip.width, (int) clip.height));
-		g.drawImage(img, (int) x, (int) y, null);
+		g.drawImage(img, 0, 0, null);
 		g.setTransform(oldAt);
 	}
 	

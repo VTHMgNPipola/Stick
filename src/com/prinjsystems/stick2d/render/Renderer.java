@@ -70,16 +70,8 @@ public class Renderer {
 		clearScreen();
 		for(RenderObject ro : objects) {
 			ro.setRenderer(this);
-			if(c != null) {
-				float rot = ro.getRotation();
-				ro.setRotation(0);
-				ro.translate(c.getX(), c.getY());
-				ro.setRotation(rot);
-				ro.draw();
-				ro.translate(-c.getX(), -c.getY());
-			} else {
-				ro.draw();
-			}
+			ro.setCamera(c);
+			ro.draw();
 		}
 	}
 	

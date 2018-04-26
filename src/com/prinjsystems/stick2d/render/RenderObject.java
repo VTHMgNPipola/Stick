@@ -27,6 +27,7 @@ public abstract class RenderObject {
 	protected float sx, sy;
 	protected float rotation;
 	protected Graphics2D g;
+	protected Camera camera;
 	
 	public RenderObject(float x, float y, float sx, float sy, float rotation) {
 		this.x = x;
@@ -41,6 +42,10 @@ public abstract class RenderObject {
 	
 	final void setRenderer(Renderer r) { // Final to prevent bugs when getting the package-private renderer.
 		g = r.g;
+	}
+	
+	final void setCamera(Camera camera) {
+		this.camera = camera;
 	}
 	
 	public void setRotationPivot(float pivotX, float pivotY) {

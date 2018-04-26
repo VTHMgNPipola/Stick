@@ -72,7 +72,7 @@ public class PrimitiveObject extends RenderObject {
 		AffineTransform at = new AffineTransform();
 		at.setToIdentity();
 		at.scale(sx, sy);
-		at.translate(x + shape.getBounds().x, y + shape.getBounds().y);
+		at.translate(x + shape.getBounds().x + -camera.getX(), y + shape.getBounds().y + -camera.getY());
 		at.rotate(Math.toRadians(rotation), pivotX, pivotY);
 		g.setTransform(at);
 		if(hollow) {
