@@ -20,7 +20,6 @@ import com.prinjsystems.stick2d.render.RenderObject;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
 
 /**
  * Renders data as a primitive AWT shape.
