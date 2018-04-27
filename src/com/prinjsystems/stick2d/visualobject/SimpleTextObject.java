@@ -93,7 +93,10 @@ public class SimpleTextObject extends RenderObject {
 		g.setTransform(at);
 		g.setFont(font);
 		g.setColor(fontColor);
-		g.drawString(text, 0, 0);
+		String[] lines = text.split("\n");
+		for(int i = 0; i < lines.length; i++) {
+			g.drawString(lines[i], 0, g.getFontMetrics(g.getFont()).getHeight() * i);
+		}
 		g.setColor(oldColor); // For some reason, background color is overwritten if re-set
 		g.setTransform(oldAt);
 	}
