@@ -80,7 +80,7 @@ public class TexturedPrimitiveObject extends RenderObject {
 		this.shapeColor = shapeColor;
 	}
 	
-	public void setBorderStroke(int size, int junctionType) {
+	public void setShapeStroke(int size, int junctionType) {
 		int type;
 		switch (junctionType) {
 			case JUNCTION_CUT:
