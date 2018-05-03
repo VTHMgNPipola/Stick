@@ -28,7 +28,7 @@ public class Core {
 		//System.setProperty("java.awt.headless", "false");
 		width = 800;
 		height = 600;
-		iconFile = "logo-small.png";
+		iconFile = "./res/logo-small.png";
 	}
 	
 	public static void setWidth(int w) {
