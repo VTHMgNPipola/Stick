@@ -86,6 +86,30 @@ public class Renderer {
 		}
 	}
 	
+	public void render(List<RenderObject> objects, List<RenderObject> ui) {
+		clearScreen();
+		if(!renderMaxToMin) {
+			for(RenderObject ro : objects) {
+				ro.setRenderer(this);
+				ro.setCamera(c);
+				ro.draw();
+			}
+		} else {
+			for(int i = objects.size() - 1; i >= 0; i--) {
+				RenderObject ro = objects.get(i);
+				ro.setRenderer(this);
+				ro.setCamera(c);
+				ro.draw();
+			}
+		}
+		Camera nullCamera = new Camera(0, 0);
+		for(RenderObject io : ui) { // UI is draw on top of common objects.
+			io.setRenderer(this);
+			io.setCamera(nullCamera);
+			io.draw();
+		}
+	}
+	
 	public void setRenderFromStartToFinish(boolean renderMaxToMin) {
 		this.renderMaxToMin = renderMaxToMin;
 	}
