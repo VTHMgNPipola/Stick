@@ -113,6 +113,10 @@ public class TexturedPrimitiveObject extends RenderObject {
 		this.drawBorders = drawBorders;
 	}
 	
+	public Shape getShape() {
+		return shape;
+	}
+	
 	@Override
 	protected void draw() {
 		Color oldColor = g.getColor();

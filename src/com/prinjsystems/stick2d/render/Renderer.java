@@ -33,6 +33,8 @@ public class Renderer {
 	private Color bgc;
 	private Camera c;
 	
+	private boolean renderMaxToMin;
+	
 	public static final int INTERPOLATION_NEAREST_NEIGHBOR = 0;
 	public static final int INTERPOLATION_BICUBIC = 1;
 	public static final int INTERPOLATION_BILINEAR = 2;
@@ -68,11 +70,24 @@ public class Renderer {
 	
 	public void render(List<RenderObject> objects) {
 		clearScreen();
-		for(RenderObject ro : objects) {
-			ro.setRenderer(this);
-			ro.setCamera(c);
-			ro.draw();
+		if(!renderMaxToMin) {
+			for(RenderObject ro : objects) {
+				ro.setRenderer(this);
+				ro.setCamera(c);
+				ro.draw();
+			}
+		} else {
+			for(int i = objects.size() - 1; i >= 0; i--) {
+				RenderObject ro = objects.get(i);
+				ro.setRenderer(this);
+				ro.setCamera(c);
+				ro.draw();
+			}
 		}
+	}
+	
+	public void setRenderFromStartToFinish(boolean renderMaxToMin) {
+		this.renderMaxToMin = renderMaxToMin;
 	}
 	
 	public void setRenderQuality(boolean renderQuality) {
@@ -123,5 +138,9 @@ public class Renderer {
 		} else {
 			g.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
 		}
+	}
+	
+	public boolean isRenderFromStartToFinish() {
+		return renderMaxToMin;
 	}
 }
