@@ -21,14 +21,19 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.VolatileImage;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Have the capabilities to render on screen.
  */
 public class Renderer {
 	private VolatileImage img;
-	Graphics2D g;
+	private Graphics2D g;
+	private Display d;
+	
+	private Map<String, Boolean> uuidHistory;
 	
 	private Color bgc;
 	private Camera c;
@@ -40,9 +45,11 @@ public class Renderer {
 	public static final int INTERPOLATION_BILINEAR = 2;
 	
 	public Renderer(Display d) {
+		this.d = d;
 		img = d.img;
 		g = (Graphics2D) img.getGraphics();
 		bgc = Color.black;
+		uuidHistory = new HashMap<>();
 	}
 	
 	public Renderer(Display d, Camera c) {
@@ -72,41 +79,47 @@ public class Renderer {
 		clearScreen();
 		if(!renderMaxToMin) {
 			for(RenderObject ro : objects) {
-				ro.setRenderer(this);
+				ro.setRenderer(g);
 				ro.setCamera(c);
 				ro.draw();
 			}
 		} else {
 			for(int i = objects.size() - 1; i >= 0; i--) {
 				RenderObject ro = objects.get(i);
-				ro.setRenderer(this);
+				ro.setRenderer(g);
 				ro.setCamera(c);
 				ro.draw();
 			}
 		}
 	}
 	
-	public void render(List<RenderObject> objects, List<RenderObject> ui) {
-		clearScreen();
-		if(!renderMaxToMin) {
-			for(RenderObject ro : objects) {
-				ro.setRenderer(this);
-				ro.setCamera(c);
-				ro.draw();
-			}
-		} else {
-			for(int i = objects.size() - 1; i >= 0; i--) {
-				RenderObject ro = objects.get(i);
-				ro.setRenderer(this);
-				ro.setCamera(c);
-				ro.draw();
-			}
-		}
+	public void render(List<RenderObject> objects, List<RenderComponent> ui) {
+		render(objects);
 		Camera nullCamera = new Camera(0, 0);
-		for(RenderObject io : ui) { // UI is draw on top of common objects.
-			io.setRenderer(this);
+		for(RenderComponent io : ui) { // UI is draw on top of common objects.
+			io.setRenderer(g);
 			io.setCamera(nullCamera);
 			io.draw();
+			int mouseX = d.getMouseX();
+			int mouseY = d.getMouseY();
+			if(io.isInside(mouseX, mouseY)) {
+				if(d.isClicking()) {
+					io.mouseClicked(mouseX, mouseY);
+				}
+				if(d.isPressing()) {
+					uuidHistory.put(io.getId(), true);
+					io.mousePressed(mouseX, mouseY);
+				} else if(!d.isPressing() && uuidHistory.get(io.getId())) {
+					uuidHistory.put(io.getId(), false);
+					io.mouseReleased(mouseX, mouseY);
+				}
+				if(d.isDragging()) {
+					io.mouseDrag(mouseX, mouseY);
+				}
+				if(d.isMoving()) {
+					io.mouseMoved(mouseX, mouseY);
+				}
+			}
 		}
 	}
 	

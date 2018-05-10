@@ -149,4 +149,9 @@ public class TexturedPrimitiveObject extends RenderObject {
 		g.setColor(oldColor);
 		g.setTransform(oldAt);
 	}
+	
+	@Override
+	public Rectangle getBounds() {
+		return shape.getBounds();
+	}
 }

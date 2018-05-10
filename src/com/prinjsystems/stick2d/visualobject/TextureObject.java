@@ -19,6 +19,7 @@ package com.prinjsystems.stick2d.visualobject;
 import com.prinjsystems.stick2d.render.RenderObject;
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -135,5 +136,10 @@ public class TextureObject extends RenderObject {
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public Rectangle getBounds() {
+		return new Rectangle((int) clip.x, (int) clip.y, (int) clip.width, (int) clip.height);
 	}
 }

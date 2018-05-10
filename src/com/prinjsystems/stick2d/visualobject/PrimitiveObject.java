@@ -18,6 +18,7 @@ package com.prinjsystems.stick2d.visualobject;
 
 import com.prinjsystems.stick2d.render.RenderObject;
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 
@@ -87,5 +88,10 @@ public class PrimitiveObject extends RenderObject {
 		}
 		g.setColor(oldColor);
 		g.setTransform(oldAt);
+	}
+	
+	@Override
+	public Rectangle getBounds() {
+		return shape.getBounds();
 	}
 }

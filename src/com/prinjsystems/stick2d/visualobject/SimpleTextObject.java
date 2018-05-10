@@ -19,7 +19,9 @@ package com.prinjsystems.stick2d.visualobject;
 import com.prinjsystems.stick2d.render.RenderObject;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Displays text on screen with system fonts. Has a text and a font name as
@@ -99,5 +101,11 @@ public class SimpleTextObject extends RenderObject {
 		}
 		g.setColor(oldColor); // For some reason, background color is overwritten if re-set
 		g.setTransform(oldAt);
+	}
+	
+	@Override
+	public Rectangle getBounds() {
+		Rectangle2D r2d = g.getFontMetrics(font).getStringBounds(text, g);
+		return new Rectangle((int) r2d.getX(), (int) r2d.getY(), (int) r2d.getWidth(), (int) r2d.getHeight());
 	}
 }

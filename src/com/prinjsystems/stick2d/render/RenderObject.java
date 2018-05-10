@@ -17,6 +17,8 @@
 package com.prinjsystems.stick2d.render;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.util.UUID;
 
 /**
  * Defines a renderable object, that can be primitive or texture.
@@ -28,20 +30,26 @@ public abstract class RenderObject {
 	protected float rotation;
 	protected Graphics2D g;
 	protected Camera camera;
+	protected String id;
 	
 	public RenderObject(float x, float y, float sx, float sy, float rotation) {
 		this.x = x;
 		this.y = y;
 		this.sx = sx;
 		this.sy = sy;
+		id = UUID.randomUUID().toString();
 	}
 	
 	public RenderObject(float x, float y) {
 		this(x, y, 1.0f, 1.0f, 0.0f);
 	}
 	
-	final void setRenderer(Renderer r) { // Final to prevent bugs when getting the package-private renderer.
-		g = r.g;
+	final void setRenderer(Graphics2D g) { // Final to prevent bugs when getting the package-private renderer.
+		this.g = g;
+	}
+	
+	final Graphics2D getRenderer() {
+		return g;
 	}
 	
 	final void setCamera(Camera camera) {
@@ -107,5 +115,11 @@ public abstract class RenderObject {
 		return rotation;
 	}
 	
+	public String getId() {
+		return id;
+	}
+	
 	protected abstract void draw();
+	
+	public abstract Rectangle getBounds();
 }
