@@ -32,10 +32,10 @@ import javax.imageio.ImageIO;
  * be renderized when needed.
  */
 public class TextureObject extends RenderObject {
-	private BufferedImage texture;
-	private Color maskColor;
-	private float maskAlpha;
-	private Rectangle2D.Float clip;
+	protected BufferedImage texture;
+	protected Color maskColor;
+	protected float maskAlpha;
+	protected Rectangle2D.Float clip;
 	
 	public TextureObject(String texturePath, float x, float y, float sx, float sy, float rotation) throws IOException {
 		super(x, y, sx, sy, rotation);
@@ -45,6 +45,12 @@ public class TextureObject extends RenderObject {
 	
 	public TextureObject(String texturePath, float x, float y) throws IOException {
 		this(texturePath, x, y, 1.0f, 1.0f, 0.0f);
+	}
+	
+	protected TextureObject(BufferedImage texture, float x, float y) throws IOException {
+		super(x, y, 1, 1, 0);
+		this.texture = texture;
+		clip = new Rectangle2D.Float(0, 0, texture.getWidth(), texture.getHeight());
 	}
 	
 	public void updateTexture(String texturePath) throws IOException {

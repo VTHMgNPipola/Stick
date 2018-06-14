@@ -21,6 +21,8 @@ import java.awt.Canvas;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -118,6 +120,21 @@ public class Display {
 				mouseY = me.getY();
 			}
 		});
+		c.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent ke) {
+			}
+
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				keys[ke.getKeyCode()] = true;
+			}
+
+			@Override
+			public void keyReleased(KeyEvent ke) {
+				keys[ke.getKeyCode()] = false;
+			}
+		});
 	}
 	
 	final boolean isClicking() {
@@ -142,7 +159,7 @@ public class Display {
 		return oldState;
 	}
 	
-	final boolean getKeyState(int keyCode) {
+	public final boolean getKeyState(int keyCode) {
 		return keys[keyCode];
 	}
 	
