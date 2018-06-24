@@ -93,33 +93,13 @@ public class Renderer {
 		}
 	}
 	
-	public void render(List<RenderObject> objects, List<RenderComponent> ui) {
+	public void render(List<RenderObject> objects, List<RenderObject> ui) {
 		render(objects);
 		Camera nullCamera = new Camera(0, 0);
-		for(RenderComponent io : ui) { // UI is draw on top of common objects.
+		for(RenderObject io : ui) { // UI is draw on top of common objects.
 			io.setRenderer(g);
 			io.setCamera(nullCamera);
 			io.draw();
-			int mouseX = d.getMouseX();
-			int mouseY = d.getMouseY();
-			if(io.isInside(mouseX, mouseY)) {
-				if(d.isClicking()) {
-					io.mouseClicked(mouseX, mouseY);
-				}
-				if(d.isPressing()) {
-					uuidHistory.put(io.getId(), true);
-					io.mousePressed(mouseX, mouseY);
-				} else if(!d.isPressing() && uuidHistory.get(io.getId())) {
-					uuidHistory.put(io.getId(), false);
-					io.mouseReleased(mouseX, mouseY);
-				}
-				if(d.isDragging()) {
-					io.mouseDrag(mouseX, mouseY);
-				}
-				if(d.isMoving()) {
-					io.mouseMoved(mouseX, mouseY);
-				}
-			}
 		}
 	}
 	
