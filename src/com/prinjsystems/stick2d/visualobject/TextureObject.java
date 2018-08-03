@@ -47,7 +47,7 @@ public class TextureObject extends RenderObject {
 		this(texturePath, x, y, 1.0f, 1.0f, 0.0f);
 	}
 	
-	protected TextureObject(BufferedImage texture, float x, float y) throws IOException {
+	protected TextureObject(BufferedImage texture, float x, float y) {
 		super(x, y, 1, 1, 0);
 		this.texture = texture;
 		clip = new Rectangle2D.Float(0, 0, texture.getWidth(), texture.getHeight());
@@ -55,6 +55,10 @@ public class TextureObject extends RenderObject {
 	
 	public void updateTexture(String texturePath) throws IOException {
 		texture = ImageIO.read(new File(texturePath));
+	}
+	
+	public void updateTexture(BufferedImage texture) {
+		this.texture = texture;
 	}
 	
 	public void setClip(Rectangle2D.Float clip) {
