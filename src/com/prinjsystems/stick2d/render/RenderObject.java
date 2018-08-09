@@ -57,8 +57,8 @@ public abstract class RenderObject {
 	}
 	
 	public void setRotationPivot(float pivotX, float pivotY) {
-		this.pivotX = x + pivotX;
-		this.pivotY = y + pivotY;
+		this.pivotX = pivotX;
+		this.pivotY = pivotY;
 	}
 	
 	public void setX(float x) {
